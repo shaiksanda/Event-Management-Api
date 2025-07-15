@@ -14,7 +14,7 @@ Content-Type: application/json
 
 {
     "user_id":1,
-    "event_id":8
+    "event_id":7
 }
 
 ###

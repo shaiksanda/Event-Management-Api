@@ -31,10 +31,10 @@ This API allows you to create events, register/cancel users, view event details,
 
 
 ## ⚙️ Setup Instructions
+🔗 [GitHub Repository](https://github.com/shaiksanda/Event-Management-Api)
 
 git clone https://github.com/shaiksanda/Event-Management-Api.git
 cd Event-Management-Api
-
 Install dependencies:
 npm install
 
@@ -85,20 +85,159 @@ API runs at: http://localhost:4000
 POST /create-event
 Create a new event.
 
-GET /event-details/:eventId
+Example:
+POST http://localhost:4000/create-event
+Content-Type: application/json
+
+{
+    "title":"Music Fest",
+    "date_time":"2025-07-15T08:20:30.123Z",
+    "location":"Hyderabad",
+    "capacity":600
+}
+
+response:
+{
+  "id": 13,
+  "message": "Event Created Successfully"
+}
+
+
 Get event details + registered users.
+GET /event-details/:eventId
+request:
+GET http://localhost:4000/event-details/10
+response:
+{
+    
+  "event": {
+    "id": 10,
+    "title": "Music Fest",
+    "date_time": "2025-08-01T10:00:00.000Z",
+    "location": "Hyderabad",
+    "capacity": 600
+  },
+  "registered_users": [
+    {
+      "id": 1,
+      "email": "sanni@gmail.com",
+      "name": "sanni"
+    }
+  ]
+}
+
+
 
 POST /register-event
 Register a user for an event.
+request:
+POST http://localhost:4000/register-event 
+Content-Type: application/json
+
+{
+    "user_id":1,
+    "event_id":8
+}
+
+response:
+{
+  "message": "User successfully registered for event"
+}
+
 
 DELETE /cancel-registration
 Cancel a user's registration.
+request:
+DELETE  http://localhost:4000/cancel-registration
+Content-Type: application/json
+
+{
+    "user_id":1,
+    "event_id":11
+}
+response:
+{
+  "message": "Registration cancelled successfully"
+}
 
 GET /upcoming-events
 List all upcoming events.
+request:
+GET http://localhost:4000/upcoming-events
+response:
+[
+  {
+    "id": 4,
+    "title": "Music Fest",
+    "date_time": "2025-08-01T10:00:00.000Z",
+    "location": "Hyderabad",
+    "capacity": 500
+  },
+  {
+    "id": 5,
+    "title": "Music Fest",
+    "date_time": "2025-08-01T10:00:00.000Z",
+    "location": "Hyderabad",
+    "capacity": 10
+  },
+  {
+    "id": 7,
+    "title": "Music Fest",
+    "date_time": "2025-08-01T10:00:00.000Z",
+    "location": "Hyderabad",
+    "capacity": 200
+  },
+  {
+    "id": 8,
+    "title": "Music Fest",
+    "date_time": "2025-08-01T10:00:00.000Z",
+    "location": "Hyderabad",
+    "capacity": 200
+  },
+  {
+    "id": 9,
+    "title": "Music Fest",
+    "date_time": "2025-08-01T10:00:00.000Z",
+    "location": "Hyderabad",
+    "capacity": 600
+  },
+  {
+    "id": 10,
+    "title": "Music Fest",
+    "date_time": "2025-08-01T10:00:00.000Z",
+    "location": "Hyderabad",
+    "capacity": 600
+  },
+  {
+    "id": 11,
+    "title": "Music Fest",
+    "date_time": "2025-08-01T10:00:00.000Z",
+    "location": "Hyderabad",
+    "capacity": 600
+  },
+  {
+    "id": 13,
+    "title": "Music Fest",
+    "date_time": "2025-08-15T08:20:30.123Z",
+    "location": "Hyderabad",
+    "capacity": 600
+  }
+]
+
+
 
 GET /event-stats/:eventId
 Get stats about a specific event.
+request:
+GET http://localhost:4000/event-stats/8
+
+response:
+{
+  "event_id": "8",
+  "total_registrations": 1,
+  "remaining_capacity": 199,
+  "capacity_used_percent": 1
+}
 
 
 
