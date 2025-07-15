@@ -34,6 +34,7 @@ This API allows you to create events, register/cancel users, view event details,
 🔗 [GitHub Repository](https://github.com/shaiksanda/Event-Management-Api)
 
 git clone https://github.com/shaiksanda/Event-Management-Api.git
+
 cd Event-Management-Api
 Install dependencies:
 npm install
