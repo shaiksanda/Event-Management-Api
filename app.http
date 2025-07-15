@@ -1,0 +1,27 @@
+POST http://localhost:4000/create-event
+Content-Type: application/json
+
+{
+    "title":"Music Fest",
+    "date_time":"2025-07-15T08:20:30.123Z",
+    "location":"Hyderabad",
+    "capacity":600
+}
+
+###
+POST http://localhost:4000/register-event 
+Content-Type: application/json
+
+{
+    "user_id":1,
+    "event_id":12
+}
+
+###
+DELETE  http://localhost:4000/cancel-registration
+Content-Type: application/json
+
+{
+    "user_id":1,
+    "event_id":11
+}
