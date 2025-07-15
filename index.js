@@ -139,7 +139,7 @@ app.get("/event-details/:eventId",async(req,res)=>{
     try{
         const {eventId}=req.params
     const eventDetails=await pool.query(`select * from events where id=$1`,[eventId])
-    if (eventDeails.rows.length===0){
+    if (eventDetails.rows.length===0){
         return res.status(404).json({error:"Event Not Found"})
     }
     let registeredUserDetails=await pool.query(`select users.id,users.email,users.name from registrations join users on users.id=registrations.user_id where registrations.event_id=$1`,[eventId])
