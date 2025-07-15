@@ -103,16 +103,36 @@ app.delete("/cancel-registration", async (req, res) => {
 app.get("/upcoming-events", async (req, res) => {
     try {
         const events = await pool.query(`select * from events where date_time> now() order by date_time asc,location asc`)
-        if ((events.rows).length===0){
+        if ((events.rows).length === 0) {
             return res.status(200).json([])
         }
         res.status(200).json(events.rows)
     }
     catch (err) {
-        res.status(500).json({error:"error while getting upcoming events",details:err.message})
+        res.status(500).json({ error: "error while getting upcoming events", details: err.message })
     }
 
 
+})
+
+app.get("/event-stats/:eventId", async (req, res) => {
+    const { eventId } = req.params
+    try {
+        const eventsCapacity = await pool.query(`select capacity from events where id=$1`, [eventId])
+
+        if (eventsCapacity.rows.length === 0) {
+            return res.status(404).json({ error: "Event Not Found" })
+        }
+        let capacity = eventsCapacity.rows[0].capacity
+        let total_registrations = await pool.query(`select count(*) from registrations where event_id=$1`, [eventId])
+        total_registrations = parseInt(total_registrations.rows[0].count)
+        let remaining_capacity = capacity - total_registrations
+        let capacity_used_percent = Math.round((total_registrations / capacity) * 100);
+        res.status(200).json({ event_id: eventId, total_registrations, remaining_capacity, capacity_used_percent })
+    }
+    catch (err) {
+        res.status(500).json({error:"error While fetching stats",details:err.message})
+    }
 })
 
 app.get('/', (req, res) => res.send('Hello, Sanni!'));
