@@ -92,12 +92,27 @@ app.delete("/cancel-registration", async (req, res) => {
             return res.status(404).json({ error: "User was not registered for this event" })
         }
 
-        await pool.query(`delete from registrations where user_id=$1 and event_id=$2`,[user_id,event_id])
+        await pool.query(`delete from registrations where user_id=$1 and event_id=$2`, [user_id, event_id])
         res.status(200).json({ message: "Registration cancelled successfully" })
     }
     catch (err) {
         res.status(404).json({ error: 'Failed to Cancel Registration', details: err.message });
     }
+})
+
+app.get("/upcoming-events", async (req, res) => {
+    try {
+        const events = await pool.query(`select * from events where date_time> now() order by date_time asc,location asc`)
+        if ((events.rows).length===0){
+            return res.status(200).json([])
+        }
+        res.status(200).json(events.rows)
+    }
+    catch (err) {
+        res.status(500).json({error:"error while getting upcoming events",details:err.message})
+    }
+
+
 })
 
 app.get('/', (req, res) => res.send('Hello, Sanni!'));
